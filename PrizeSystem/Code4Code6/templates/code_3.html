@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>尾牙個人查獎系統</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700&display=swap');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4; /* 可以移除這個屬性，因為會使用圖片作為背景 */
+            background-image: url('/static/img/background.jpg'); /* 設定背景圖片 */
+            background-size: cover; /* 讓背景圖片覆蓋整個頁面 */
+            background-repeat: no-repeat; /* 背景圖片不重複 */
+            background-attachment: fixed; /* 背景圖片固定，不隨滾動條移動 */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: red; /* 修改為紅色 */
+            font-family: 'Noto Serif TC', serif; /* 修改為標楷體 */
+            font-size: 28px; /* 增大字體大小 */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.7); /* 使用 rgba 顏色來設定半透明背景 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td.green {
+            color: green;
+        }
+
+        td.red {
+            color: red;
+        }
+
+        .no-award-message1 {
+            font-size: 24px;
+            color: #ff0000;
+            text-align: center;
+            margin-top: 20px;
+            background-color: rgba(245, 245, 245, 0.7);
+        }
+        
+        .message-container {
+            background-color: rgba(242, 242, 242, 0.7); /* 背景顏色 */
+            padding: 10px; /* 調整內邊距以增加間距 */
+        }
+        
+        .no-award-message2 {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* 新增樣式 */
+        .label-cell {
+            background-color: rgba(242, 242, 242, 0.7); /* 標籤的背景顏色 */
+            font-weight: bold; /* 加粗文字以顯示標籤 */
+            width: 20%; /* 設定寬度，您可以根據需要調整 */
+        }
+        
+        .value-cell {
+            background-color: rgba(255, 255, 255, 0.7); /* 值的背景顏色 */
+        }
+        
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>個人查獎系統</h1>
+    {% if shutdown == False %}
+      {% if data %}
+          {% if check == True %}
+              <table >
+                  <tbody>
+                      {% for row in data %}
+                          <tr>
+                              <td class="label-cell">編號 (SeqNum)</td>
+                              <td class="value-cell">{{ row[0] }}</td>
+                          </tr>
+                          <tr>
+                              <td class="label-cell">單位 (Department)</td>
+                              <td class="value-cell">{{ row[1] }}</td>
+                          </tr>
+                          <tr>
+                              <td class="label-cell">姓名 (Name)</td>
+                              <td class="value-cell">{{ row[2] }}</td>
+                          </tr>
+                          <tr>
+                              <td class="label-cell">獎品名稱 (Prize)</td>
+                              <td class="value-cell">{{ row[3] }}</td>
+                          </tr>
+                          <tr>
+                              <td class="label-cell">是否已領獎 (Have claimed or not)</td>
+                              <td class="value-cell {% if row[4] == 1 %}green{% else %}red{% endif %}">
+                                  {% if row[4] == 1 %}
+                                      是 (Y)
+                                  {% else %}
+                                      否 (N)
+                                  {% endif %}
+                              </td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          {% else %}
+              {% for row in data %}
+                <div class="message-container">
+                  <p class="no-award-message2">{{ row[0] }}({{ row[1] }})先生/女士，您尚未抽到獎，請稍待片刻。</p>
+                  <p class="no-award-message2"> Mr./Ms. {{ row[0] }}({{ row[1] }}), you have not yet won a prize. Please wait a moment.</p>
+                </div>
+              {% endfor %}
+          {% endif %}
+      {% else %}
+        {% if check2 == False %}
+          <p class="no-award-message1">URL錯誤!!</p>
+        {% else %}
+          <p class="no-award-message1">Bot測試!!</p>
+        {% endif %}
+      {% endif %}
+    {% else %}
+      <p class="no-award-message1">獎品搬運中，暫時無法查詢！</p>
+    {% endif %}
+</body>
+
+<footer>
+    <div style="text-align: center; background-color: #333; color: #fff; padding: 10px;">
+        &copy; 2024 明明如意團隊  All Rights Reserved.
+    </div>
+</footer>
+
+</html>

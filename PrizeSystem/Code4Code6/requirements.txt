@@ -1,0 +1,5 @@
+Flask
+flask-sqlalchemy
+pymysql
+cryptography
+mysql-connector-python

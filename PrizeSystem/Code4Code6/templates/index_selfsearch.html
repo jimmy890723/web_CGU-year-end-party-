@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="https://rawgit.com/zxing-js/instascan/master/instascan.min.js"></script>
+</head>
+<body>
+    <h1>QR Code Scanner(個人查獎)</h1>
+    
+    <video id="preview"></video>
+
+    <script>
+        // 获取视频流并启动扫描
+        const video = document.getElementById('preview');
+
+        // 使用 instascan 库来处理扫描
+        const scanner = new Instascan.Scanner({ video: video });
+        scanner.addListener('scan', function (content) {
+            // 扫描成功后，将内容填入表单并提交
+            document.getElementById('serial_number').value = content;
+            document.getElementById('form').submit();
+        });
+
+        // 启动摄像头
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        });
+    </script>
+
+    <form id="form" action="/process_form_selfsearch" method="post" style="display:none;">
+        <label for="serial_number">Scan QR Code:</label>
+        <input type="text" id="serial_number" name="serial_number" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

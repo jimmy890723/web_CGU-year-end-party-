@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index_enter</title>
+    <style>
+        body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f4f4; /* 可以移除這個屬性，因為會使用圖片作為背景 */
+                background-image: url('/static/img/background.jpg'); /* 設定背景圖片 */
+                background-size: cover; /* 讓背景圖片覆蓋整個頁面 */
+                background-repeat: no-repeat; /* 背景圖片不重複 */
+                background-attachment: fixed; /* 背景圖片固定，不隨滾動條移動 */
+                margin: 0;
+                padding: 0;
+            }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>進場使用</h1>
+    
+    <form action="/process_form_enter" method="post">
+        <label for="user_input">Enter something:</label>
+        <input type="text" id="user_input" name="user_input" required>
+        <button type="submit">確認</button>
+    </form>
+</body>
+</html>

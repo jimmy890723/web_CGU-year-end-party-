@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CGU</title>
+    <style>
+        h1 {
+            font-size: 24px; /* 調整字體大小為24像素 */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+    }
+    </style>
+</head>
+<body>
+    <h1>尾牙入場系統</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>編號</th>
+                <th>單位</th>
+                <th>姓名</th>
+                <th>入場</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>已完成入場辦理</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+<footer>
+    <div style="text-align: center; background-color: #333; color: #fff; padding: 10px;">
+        &copy; 2024 明明如意團隊 From WIDE LAB. All Rights Reserved.
+    </div>
+</footer>
+</html>

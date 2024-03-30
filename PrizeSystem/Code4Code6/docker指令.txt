@@ -1,0 +1,13 @@
+docker build -t flask-app .
+docker run --name winning01 -d -p 6123:5000 flask-app
+
+---
+常用
+docker cp app.py winning02:app/app.py
+docker cp templates winning02:app/
+docker restart winning02
+
+access_log相關
+docker exec winning02 cat /app/access_log.txt
+docker exec winning02 truncate -s 0 /app/access_log.txt #清理
+docker cp winning02:app/access_log.txt /home/jimmy890723/PrizeSystem/Code4Code6/

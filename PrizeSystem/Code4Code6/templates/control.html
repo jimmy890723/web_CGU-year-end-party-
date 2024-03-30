@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制自我查詢系統</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('/static/img/background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 60px;
+            background-attachment: fixed;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        h1,h2 {
+            text-align: center;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            display: flex; /* 使用 flex 布局 */
+            justify-content: center; /* 水平居中排列按钮 */
+        }
+        
+        .button-container button {
+            margin: 0 10px;
+            padding: 15px 30px;
+        }
+        
+        /* 其他樣式保持不變 */
+
+        .link-container {
+            border: 1px solid #ddd; /* 添加邊框 */
+            padding: 20px; /* 添加內邊距 */
+            background-color: #f9f9f9; /* 設置背景顏色 */
+            margin: 20px auto; /* 上下保持20px間距，左右自動居中 */
+            max-width: 500px; /* 最大寬度設為600px */
+            text-align: center; /* 文字居中 */
+        }
+    
+        .link-container h2 {
+            color: #333; /* 為標題設置顏色 */
+        }
+    
+        .link-container ul {
+            list-style-type: none; /* 移除列表標記 */
+            padding: 0; /* 移除預設的內邊距 */
+        }
+    
+        .link-container ul li {
+            margin-bottom: 10px; /* 為列表項目添加間距 */
+        }
+    
+        .link-container ul li a {
+            color: #0066cc; /* 為連結設置顏色 */
+            text-decoration: none; /* 移除下劃線 */
+        }
+    
+        .link-container ul li a:hover {
+            text-decoration: underline; /* 滑鼠懸停時添加下劃線 */
+        }
+        
+        .prize-list-container {
+            border: 1px solid #ddd; /* 添加邊框 */
+            padding: 20px; /* 添加內邊距 */
+            background-color: #f9f9f9; /* 設置背景顏色 */
+            max-width: 600px; /* 最大寬度 */
+            margin: 20px auto; /* 上下保持20px間距，左右自動居中 */
+            text-align: center; /* 文字居中 */
+            border-radius: 10px; /* 邊框圓角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+        }
+        ul {
+            list-style-type: none; /* 移除列表項目符號 */
+            padding: 0; /* 移除預設內邊距 */
+        }
+        li {
+            margin-bottom: 10px; /* 列表項目間距 */
+            font-size: 16px; /* 文字大小 */
+            line-height: 1.6; /* 行高 */
+        }
+        .alert-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .light-bulb {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* 圓形 /
+            display: inline-block;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); / 添加陰影效果 */
+            //margin: auto;
+        }
+        
+        .time-display {
+            font-size: 20px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            gap: 20px; /* 元素之間的間隙 */
+        }
+    </style>
+</head>
+<body>
+    <h1>控制中心</h1>
+    <!-- 列表區塊開始 -->
+    <div class="link-container">
+        <h2>重要連結</h2>
+        <ul>
+            <li><a href="http://rtx2080ti2.widelab.org:6123">輸入獲獎者之系統介面</a></li>
+            <li><a href="http://rtx2080ti2.widelab.org:6126">獲獎名單之系統介面</a></li>
+            <li><a href="http://rtx2080ti3.widelab.org:6125/Redeem">兌獎之系統介面</a></li>
+        </ul>
+    </div>
+    <!-- 列表區塊結束 -->
+    <h1>控制自我查詢系統</h1>
+    <div class="alert-container">
+      <h2>系統狀態指示燈</h2>
+      <div class="status-indicator">
+        <div class="light-bulb" 
+             style="background-color: {% if last_access_time < 1 %}green{% elif last_access_time < 3 %}yellow{% else %}red{% endif %};">
+        </div>
+        <div class="time-display">{{ last_access_time }} 秒</div>
+      </div>
+    </div>
+    <h2>控制按鈕</h2>
+    {% if shutdown %}
+        <div style="text-align: center; color: red;">自我查詢系統: 停止</div>
+    {% else %}
+        <div style="text-align: center; color: green;">自我查詢系統: 開啟</div>
+    {% endif %}
+    <div class="button-container">
+        <form method="post" action="/set_shutdown">
+            <button type="submit" name="shutdown" value="True">按我"停止"自我查詢系統</button>
+        </form>
+        <form method="post" action="/set_shutdown">
+            <button type="submit" name="shutdown" value="False">按我"開啟"自我查詢系統</button>
+        </form>
+    </div>
+    <div class="prize-list-container">
+      <h1>獎品現況清單</h1>
+        <ul>
+          {% for prize in data_prize %}
+              <li style="color: {% if prize[3] == 0 %}red{% else %}black{% endif %};text-decoration: {% if prize[3] == 0 %}line-through{% else %}none{% endif %};">
+                  {{ prize[0] }} - 數量：{{ prize[1] }}
+              </li>
+          {% endfor %}
+      </ul>
+    </div>
+</body>
+<footer>
+    <div style="text-align: center; background-color: #333; color: #fff; padding: 10px;">
+        &copy; 2024 明明如意團隊  All Rights Reserved.
+    </div>
+</footer>
+</html>
